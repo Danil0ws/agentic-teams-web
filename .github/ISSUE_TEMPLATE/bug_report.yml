@@ -1,0 +1,64 @@
+name: Bug
+description: Algo não funciona como documentado
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de abrir: rode `npm test`. Se algum teste falhar, cole a saída — isso já elimina metade das causas.
+        Falha de segurança? **Não** abra issue: use [Security → Report a vulnerability](../security/advisories/new).
+  - type: input
+    id: node
+    attributes:
+      label: Versão do Node
+      description: Saída de `node --version` (o projeto exige ≥ 22.6)
+      placeholder: v26.8.1
+    validations:
+      required: true
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options:
+        - botframework (webhook do Azure Bot)
+        - teams-web (Playwright)
+        - CLI / servidor local (sem Teams)
+        - testes
+    validations:
+      required: true
+  - type: input
+    id: llm
+    attributes:
+      label: LLM configurado
+      description: Valor de `LLM_PROVIDER` (e `LLM_MODEL`, se `openai`)
+      placeholder: offline
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que você esperava e o que aconteceu
+      placeholder: |
+        Esperado: orçamento com 10% de desconto para 25 assentos
+        Aconteceu: respondeu sem desconto
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Como reproduzir
+      description: Comando exato. Se envolver o agente, inclua a entrada e, se possível, o `trace` devolvido.
+      render: shell
+      placeholder: |
+        npm run chat -- "Quero 25 licenças do Business Premium"
+        # trace: hydrate → classify → retrieve → quote → compose → guard → remember
+    validations:
+      required: true
+  - type: textarea
+    id: ambiente
+    attributes:
+      label: Saída de `npm test` e `curl -s localhost:3110/health`
+      description: Cole os dois. O `/health` mostra canal, LLM e estatísticas do banco.
+      render: shell
+    validations:
+      required: false
