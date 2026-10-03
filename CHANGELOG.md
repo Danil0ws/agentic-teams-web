@@ -30,6 +30,7 @@ Primeira versão funcional: agente para Microsoft Teams com um núcleo de agente
 
 - **`npm run bot:dev`**: o canal não era iniciado, então o `curl` que o próprio CLI imprime respondia **503 (canal parado)**. Agora o webhook sobe com o canal ativo e a resposta do agente aparece no log.
 - **Validação de JWT**: token cujo `kid` não existe na JWKS passa a ser recusado com motivo explícito (`kid não encontrado na JWKS`) em vez de tentar a primeira chave — cair para outra emissão mascararia o motivo real.
+- **`npm run chat`**: não tenta mais enviar pelo canal quando não há credenciais do Bot Framework — antes imprimia `[envio pelo canal] {"ok":false,...}`, que parecia erro no primeiro contato com o projeto. Agora diz `ignorado (sem BOT_APP_ID/BOT_APP_SECRET — CLI local)`.
 - **Painel (`GET /`)**: favicon embutido (`data:`) elimina o 404 no console; preview das conversas remove `**` do markdown (antes aparecia literal no lugar do texto); `overflow-wrap: anywhere` nas células evita estouro horizontal com strings longas sem espaço. Verificado renderizado em 1440×900, 390×844 e 320×800 — sem overflow horizontal, nenhuma célula truncada, console limpo.
 
 ### Documentação e projeto open source
