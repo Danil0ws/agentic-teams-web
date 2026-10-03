@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
     <title>Agente Teams · painel</title>
     <style>
       :root { color-scheme: dark; --bg:#0b0e14; --card:#151922; --line:#232a38; --fg:#e6edf3; --muted:#8b98a9; --accent:#5b8def; --ok:#3fb950; --warn:#d29922; }
@@ -18,7 +19,7 @@
       .metric { background:#0f131b; border:1px solid var(--line); border-radius:8px; padding:10px; }
       .metric b { display:block; font-size:22px; }
       table { width:100%; border-collapse:collapse; font-size:13px; }
-      th,td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); vertical-align:top; }
+      th,td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); vertical-align:top; overflow-wrap:anywhere; }
       code { background:#0f131b; padding:1px 5px; border-radius:4px; }
       .pill { display:inline-block; padding:1px 8px; border-radius:999px; border:1px solid var(--line); font-size:12px; }
       .ok { color:var(--ok); } .warn { color:var(--warn); }
@@ -66,7 +67,7 @@
         document.getElementById('channels').innerHTML = health.channels.map((ch) =>
           `<tr><td><code>${ch.name}</code></td><td>${ch.running ? '<span class="pill ok">ativo</span>' : '<span class="pill warn">parado</span>'} <span class="muted">${ch.detail}</span></td></tr>`).join('');
         document.getElementById('conversations').innerHTML = conversations.conversations.length
-          ? conversations.conversations.map((row) => `<tr><td>${row.user_name}<div class="muted">${row.channel}</div></td><td>${row.text.slice(0, 90)}<div class="muted">${br(row.ts)}</div></td></tr>`).join('')
+          ? conversations.conversations.map((row) => `<tr><td>${row.user_name}<div class="muted">${row.channel}</div></td><td>${String(row.text ?? '').replace(/\*\*/g, '').slice(0, 90)}<div class="muted">${br(row.ts)}</div></td></tr>`).join('')
           : '<tr><td class="muted">sem conversas ainda — use POST /api/simulate</td></tr>';
         document.getElementById('tickets').innerHTML = tickets.tickets.length
           ? tickets.tickets.map((t) => `<tr><td>#${t.id} <span class="pill">${t.status}</span></td><td>${t.subject}<div class="muted">${br(t.createdAt)}</div></td></tr>`).join('')

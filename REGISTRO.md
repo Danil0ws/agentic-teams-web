@@ -24,6 +24,7 @@ Pedido: criar um agente para **Microsoft Teams Web**, a partir de uma lista de r
 | Adapter Teams Web no Chrome real | fixture `tests/fixtures/teams-web.html`: login detectado, 2 chats listados (não lidas = 2), 2 mensagens lidas, mensagem enviada e publicada no DOM |
 | Validação de JWT do Bot Framework | token válido aceito; adulterado, `alg: none`, audience errada, expirado e `serviceurl` divergente recusados |
 | `send()` no Bot Connector | Activity postada com `Bearer` do token app-only contra Bot Connector falso, incluindo `replyToId` |
+| Painel renderizado (Chrome real, headless) | 1440×900 (grid 4×336px), 390×844 (1 coluna 342px) e 320×800 (280px): `scrollWidth == clientWidth` nas três larguras, zero elemento ultrapassando o viewport, zero célula com texto cortado, zero erro de console e auto-refresh de 5s confirmado (texto do cabeçalho muda). Screenshots em `.telemetry/dashboard-{desktop,mobile,narrow}.png` (não versionados). |
 
 ## Pendências conhecidas (honestas)
 

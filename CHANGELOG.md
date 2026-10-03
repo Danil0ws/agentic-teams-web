@@ -26,6 +26,10 @@ Primeira versão funcional: agente para Microsoft Teams com um núcleo de agente
 - **Dados de exemplo**: 9 SKUs de licenças Microsoft 365/Teams (preços fictícios) e FAQ com 7 seções.
 - **Documentação**: `README.md`, `docs/ARQUITETURA.md` (decisões e trade-offs), `docs/REFERENCIAS.md` (de-para com os projetos open-source de referência), `docs/TEAMS_OFICIAL.md` (registro no Azure Bot, manifest do Teams e checklist de produção) e `REGISTRO.md`.
 
+### Corrigido
+
+- **Painel (`GET /`)**: favicon embutido (`data:`) elimina o 404 no console; preview das conversas remove `**` do markdown (antes aparecia literal no lugar do texto); `overflow-wrap: anywhere` nas células evita estouro horizontal com strings longas sem espaço. Verificado renderizado em 1440×900, 390×844 e 320×800 — sem overflow horizontal, nenhuma célula truncada, console limpo.
+
 ### Notas
 
 - Zero dependência obrigatória: `node:sqlite`, `node:crypto`, `node:http` e TypeScript nativo do Node ≥ 22.6. Playwright é opcional (`optionalDependencies`) e usado apenas pelo adapter de navegador.
