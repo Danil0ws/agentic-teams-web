@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agente Teams · painel</title>
+    <style>
+      :root { color-scheme: dark; --bg:#0b0e14; --card:#151922; --line:#232a38; --fg:#e6edf3; --muted:#8b98a9; --accent:#5b8def; --ok:#3fb950; --warn:#d29922; }
+      * { box-sizing: border-box; }
+      body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.5 ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+      header { padding:20px 24px; border-bottom:1px solid var(--line); display:flex; gap:16px; align-items:baseline; flex-wrap:wrap; }
+      h1 { font-size:18px; margin:0; }
+      .muted { color:var(--muted); font-size:12px; }
+      main { padding:20px 24px; display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+      section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+      h2 { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 10px; }
+      .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+      .metric { background:#0f131b; border:1px solid var(--line); border-radius:8px; padding:10px; }
+      .metric b { display:block; font-size:22px; }
+      table { width:100%; border-collapse:collapse; font-size:13px; }
+      th,td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); vertical-align:top; }
+      code { background:#0f131b; padding:1px 5px; border-radius:4px; }
+      .pill { display:inline-block; padding:1px 8px; border-radius:999px; border:1px solid var(--line); font-size:12px; }
+      .ok { color:var(--ok); } .warn { color:var(--warn); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Agente Microsoft Teams · painel local</h1>
+      <span class="muted" id="meta">carregando…</span>
+    </header>
+    <main>
+      <section>
+        <h2>Estado</h2>
+        <div class="grid" id="metrics"></div>
+      </section>
+      <section>
+        <h2>Canais</h2>
+        <table><tbody id="channels"></tbody></table>
+      </section>
+      <section>
+        <h2>Conversas recentes</h2>
+        <table><tbody id="conversations"></tbody></table>
+      </section>
+      <section>
+        <h2>Handoffs (chamados)</h2>
+        <table><tbody id="tickets"></tbody></table>
+      </section>
+    </main>
+    <script>
+      const br = (iso) => new Date(iso).toLocaleString('pt-BR');
+      async function load() {
+        const [health, metrics, conversations, tickets] = await Promise.all([
+          fetch('/health').then((r) => r.json()),
+          fetch('/api/metrics').then((r) => r.json()),
+          fetch('/api/conversations').then((r) => r.json()),
+          fetch('/api/tickets').then((r) => r.json()),
+        ]);
+        document.getElementById('meta').textContent =
+          `LLM ${health.llm.kind} (${health.llm.model}) · uptime ${health.uptimeSeconds}s · atualizado ${new Date().toLocaleTimeString('pt-BR')}`;
+        const c = metrics.counters;
+        document.getElementById('metrics').innerHTML = [
+          ['Mensagens', c.total], ['Handoffs', c.handoffs], ['Erros', c.errors],
+          ['Conversas', metrics.stats.conversations], ['Turnos salvos', metrics.stats.messages], ['Chamados', metrics.stats.tickets],
+        ].map(([label, value]) => `<div class="metric"><span class="muted">${label}</span><b>${value}</b></div>`).join('');
+        document.getElementById('channels').innerHTML = health.channels.map((ch) =>
+          `<tr><td><code>${ch.name}</code></td><td>${ch.running ? '<span class="pill ok">ativo</span>' : '<span class="pill warn">parado</span>'} <span class="muted">${ch.detail}</span></td></tr>`).join('');
+        document.getElementById('conversations').innerHTML = conversations.conversations.length
+          ? conversations.conversations.map((row) => `<tr><td>${row.user_name}<div class="muted">${row.channel}</div></td><td>${row.text.slice(0, 90)}<div class="muted">${br(row.ts)}</div></td></tr>`).join('')
+          : '<tr><td class="muted">sem conversas ainda — use POST /api/simulate</td></tr>';
+        document.getElementById('tickets').innerHTML = tickets.tickets.length
+          ? tickets.tickets.map((t) => `<tr><td>#${t.id} <span class="pill">${t.status}</span></td><td>${t.subject}<div class="muted">${br(t.createdAt)}</div></td></tr>`).join('')
+          : '<tr><td class="muted">nenhum handoff</td></tr>';
+      }
+      load();
+      setInterval(load, 5000);
+    </script>
+  </body>
+</html>

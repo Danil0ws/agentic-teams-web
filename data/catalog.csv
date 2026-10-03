@@ -1,0 +1,10 @@
+sku,nome,categoria,preco_mensal_brl,estoque,descricao
+TL-TEAMS-ESS,Teams Essentials,licenca,35.00,250,Reunioes com ate 300 participantes e 30 horas de gravacao por reuniao
+TL-M365-BUS,Microsoft 365 Business Basic,produtividade,67.00,180,Teams plus web apps do Office com 1 TB de OneDrive por usuario
+TL-M365-STD,Microsoft 365 Business Standard,produtividade,89.00,120,Apps do Office para desktop e web com Teams e 1 TB de OneDrive
+TL-M365-PREM,Microsoft 365 Business Premium,seguranca,145.00,60,Suites de produtividade com Defender e Intune para ate 300 licencas
+TL-COPILOT-C,Microsoft 365 Copilot,ia,190.00,40,Assistente de IA integrado ao Teams Word Excel Outlook e resumos de reuniao
+TL-PHONE-STD,Teams Phone Standard,telefonia,60.00,90,Chamadas PSTN chamada em espera e transferencia com plano de discagem
+TL-ROOMS-PRO,Teams Rooms Pro,salas,250.00,25,Sala de reuniao gerenciada com Teams Rooms Pro e gestao remota
+TL-WEBINAR,Teams Webinars,eventos,80.00,70,Webinars com registro paginas de inscricao e relatorios de participacao
+TL-PREM-ANALYTICS,Teams Premium,seguranca,65.00,55,Reunioes com marca dagua Q&A moderado e resumos automaticos por IA

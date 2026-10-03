@@ -1,0 +1,22 @@
+{
+  "name": "agentic-teams-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "description": "Agente autônomo para Microsoft Teams: núcleo de grafo de estados + memória SQLite + ferramentas (catálogo/FAQ) servindo dois transports (Bot Framework oficial e Teams Web via Playwright).",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/serve.ts",
+    "dev": "node --watch --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/serve.ts",
+    "chat": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/chat.ts",
+    "teams-web": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/teams-web.ts",
+    "bot:dev": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/bot-dev.ts",
+    "test": "node --test --disable-warning=ExperimentalWarning tests/",
+    "smoke": "node --disable-warning=ExperimentalWarning src/cli/chat.ts \"Olá, quanto custa o Microsoft 365 Copilot?\""
+  },
+  "optionalDependencies": {
+    "playwright": "^1.49.0"
+  }
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Teams Web — fixture de QA</title>
+    <style>body{font:14px sans-serif;margin:0}main{display:flex;height:100vh}aside{width:260px;border-right:1px solid #ccc;padding:8px}section{flex:1;padding:8px}[data-tid="message-list-body"]{min-height:200px;border:1px solid #eee;padding:8px}</style>
+  </head>
+  <body>
+    <!-- Réplica mínima do DOM do Teams Web usada pelos seletores de src/adapters/teams-web/selectors.ts -->
+    <div id="teams-app">
+      <main>
+        <aside data-tid="chat-list" role="tree">
+          <div data-tid="chat-list-item" role="treeitem">
+            <span data-tid="chat-list-item-title">Comercial</span>
+            <span data-tid="chat-list-unread-count">2</span>
+          </div>
+          <div data-tid="chat-list-item" role="treeitem">
+            <span data-tid="chat-list-item-title">Suporte Interno</span>
+          </div>
+        </aside>
+        <section>
+          <div data-tid="chat-header-title">Comercial</div>
+          <div data-tid="message-list-body" role="log">
+            <div data-tid="chat-pane-message" data-message-id="m1" data-author="Ana Souza">
+              <span data-tid="message-author-name">Ana Souza</span>
+              <div data-tid="message-body-content">Bom dia, quanto custa o Microsoft 365 Copilot?</div>
+            </div>
+            <div data-tid="chat-pane-message" data-message-id="m2" data-author="Bruno Lima">
+              <span data-tid="message-author-name">Bruno Lima</span>
+              <div data-tid="message-body-content">E o SLA de disponibilidade, como fica?</div>
+            </div>
+          </div>
+          <footer>
+            <div data-tid="ckeditor"><div contenteditable="true" role="textbox" aria-label="Digite uma mensagem"></div></div>
+            <button data-tid="send-message-button">Enviar</button>
+          </footer>
+        </section>
+      </main>
+    </div>
+    <script>
+      // Comportamento real do compositor: clique em Enviar publica a mensagem na lista.
+      const list = document.querySelector('[data-tid="message-list-body"]');
+      const composer = document.querySelector('[contenteditable="true"]');
+      document.querySelector('[data-tid="send-message-button"]').addEventListener('click', () => {
+        const text = composer.textContent.trim();
+        if (!text) return;
+        const node = document.createElement('div');
+        node.setAttribute('data-tid', 'chat-pane-message');
+        node.setAttribute('data-message-id', `out-${Date.now()}`);
+        node.setAttribute('data-author', 'Agente M365');
+        node.innerHTML = '<span data-tid="message-author-name">Agente M365</span><div data-tid="message-body-content"></div>';
+        node.querySelector('[data-tid="message-body-content"]').textContent = text;
+        list.appendChild(node);
+        composer.textContent = '';
+      });
+    </script>
+  </body>
+</html>
