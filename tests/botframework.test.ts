@@ -65,6 +65,10 @@ test('rejeita assinatura adulterada, alg "none", audience errada e token expirad
   const outroServiceUrl = signToken({ ...basePayload, serviceurl: 'https://atacante.example.com/' });
   assert.match(String((await verifyBotFrameworkToken(outroServiceUrl, { appId: APP_ID, serviceUrl, keys: [jwk] })).reason), /serviceurl/);
 
+  // kid desconhecido não pode cair para a primeira chave da JWKS
+  const kidDesconhecido = signToken(basePayload, privateKey, { alg: 'RS256', kid: 'kid-de-outra-emissao' });
+  assert.match(String((await verifyBotFrameworkToken(kidDesconhecido, { appId: APP_ID, keys: [jwk] })).reason), /kid não encontrado/);
+
   assert.equal((await verifyBotFrameworkToken('nao-e-jwt', { appId: APP_ID, keys: [jwk] })).ok, false);
 });
 

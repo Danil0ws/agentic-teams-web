@@ -90,8 +90,10 @@ export async function verifyBotFrameworkToken(token: string, options: VerifyOpti
   } catch (error) {
     return { ok: false, reason: `não foi possível obter JWKS: ${(error as Error).message}` };
   }
-  const jwk = keys.find((candidate) => candidate.kid === header.kid) ?? keys[0];
-  if (!jwk) return { ok: false, reason: 'nenhuma chave pública disponível' };
+  // kid presente no header tem que existir na JWKS: cair para a primeira chave
+  // mascararia token de outra emissão ("chave inválida" em vez de motivo real).
+  const jwk = header.kid ? keys.find((candidate) => candidate.kid === header.kid) : keys[0];
+  if (!jwk) return { ok: false, reason: `kid não encontrado na JWKS: ${header.kid}` };
 
   let publicKey: ReturnType<typeof createPublicKey>;
   try {

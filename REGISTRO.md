@@ -25,6 +25,8 @@ Pedido: criar um agente para **Microsoft Teams Web**, a partir de uma lista de r
 | Validação de JWT do Bot Framework | token válido aceito; adulterado, `alg: none`, audience errada, expirado e `serviceurl` divergente recusados |
 | `send()` no Bot Connector | Activity postada com `Bearer` do token app-only contra Bot Connector falso, incluindo `replyToId` |
 | Painel renderizado (Chrome real, headless) | 1440×900 (grid 4×336px), 390×844 (1 coluna 342px) e 320×800 (280px): `scrollWidth == clientWidth` nas três larguras, zero elemento ultrapassando o viewport, zero célula com texto cortado, zero erro de console e auto-refresh de 5s confirmado (texto do cabeçalho muda). Screenshots em `.telemetry/dashboard-{desktop,mobile,narrow}.png` (não versionados). |
+| `npm run bot:dev` (fluxo do README, curl real) | Activity postada → **HTTP 200** `{"ok":true,"conversationId":"dev-conversation-1"}` e resposta do agente no log (`intenção=catalogo`) com preço do catálogo. Antes do ajuste o mesmo curl devolvia **503** porque o canal não era iniciado. |
+| Webhook com `BOT_SKIP_AUTH=0` (servidor real na 3113) | Sem header `Authorization` → **401** `header Authorization ausente`; token forjado (RS256 com `kid` inexistente) → **401** `kid não encontrado na JWKS`, contra a JWKS pública real do Bot Framework. `/health` confirma `auth=JWT RS256`. |
 
 ## Pendências conhecidas (honestas)
 

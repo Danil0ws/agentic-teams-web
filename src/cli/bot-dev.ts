@@ -11,6 +11,17 @@ const app = createApp(cfg);
 const server = createHttpServer(app);
 await new Promise<void>((resolve) => server.listen(cfg.port, cfg.host, resolve));
 
+// Sem canal iniciado o webhook responde 503 — em dev usamos process() para não
+// tentar falar com o Bot Connector (que exige App ID/secret reais).
+const channel = app.channels.get('botframework');
+if (!channel) throw new Error('canal botframework não inicializado');
+await channel.start(async (message) => {
+  const result = await app.process(message);
+  console.log(`\n[bot:dev] ${message.userName}: ${message.text}`);
+  console.log(`[bot:dev] intenção=${result.intent} confiança=${result.confidence.toFixed(2)} handoff=${result.handoff}`);
+  console.log(`[bot:dev] resposta:\n${result.reply}`);
+});
+
 const activity = {
   type: 'message',
   id: 'dev-activity-1',
