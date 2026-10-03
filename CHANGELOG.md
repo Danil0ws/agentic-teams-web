@@ -28,7 +28,18 @@ Primeira versão funcional: agente para Microsoft Teams com um núcleo de agente
 
 ### Corrigido
 
+- **`npm run bot:dev`**: o canal não era iniciado, então o `curl` que o próprio CLI imprime respondia **503 (canal parado)**. Agora o webhook sobe com o canal ativo e a resposta do agente aparece no log.
+- **Validação de JWT**: token cujo `kid` não existe na JWKS passa a ser recusado com motivo explícito (`kid não encontrado na JWKS`) em vez de tentar a primeira chave — cair para outra emissão mascararia o motivo real.
 - **Painel (`GET /`)**: favicon embutido (`data:`) elimina o 404 no console; preview das conversas remove `**` do markdown (antes aparecia literal no lugar do texto); `overflow-wrap: anywhere` nas células evita estouro horizontal com strings longas sem espaço. Verificado renderizado em 1440×900, 390×844 e 320×800 — sem overflow horizontal, nenhuma célula truncada, console limpo.
+
+### Documentação e projeto open source
+
+- **`LICENSE`** (MIT) e repositório público — antes era privado.
+- **`CONTRIBUTING.md`**: onde cada tipo de mudança encaixa (domínio em `data/`, nó em `src/agent/`, canal em `src/adapters/`, ferramenta em `src/tools/`), as regras de ouro (determinismo no caminho padrão, zero dependência obrigatória nova, sintaxe compatível com type stripping, teste junto, segredo redigido) e o fluxo de commit/PR.
+- **`SECURITY.md`**: relato privado por GitHub Advisory, tabela de superfície (webhook, guardrails, injeção de prompt, SQL, configuração), o que está fora de escopo (adapter `teams-web` e ToS) e checklist de implantação.
+- **`CODE_OF_CONDUCT.md`**: Contributor Covenant v2.1.
+- **README**: badges (licença, Node, testes, zero dependência obrigatória), seção **Em 60 segundos** com o caminho clone → `npm test` → `npm run chat`, seção de licença/contribuição e árvore de arquivos atualizada.
+- **`package.json`**: `license`, `author`, `keywords`, `repository`, `homepage` e `bugs` (segue `private: true` por ser aplicativo, não biblioteca publicada).
 
 ### Notas
 

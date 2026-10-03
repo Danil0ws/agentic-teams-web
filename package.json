@@ -2,11 +2,31 @@
   "name": "agentic-teams-web",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=22.6"
   },
   "description": "Agente autônomo para Microsoft Teams: núcleo de grafo de estados + memória SQLite + ferramentas (catálogo/FAQ) servindo dois transports (Bot Framework oficial e Teams Web via Playwright).",
+  "keywords": [
+    "microsoft-teams",
+    "agent",
+    "llm",
+    "bot-framework",
+    "playwright",
+    "state-graph",
+    "typescript",
+    "node-native-typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danil0ws/agentic-teams-web.git"
+  },
+  "homepage": "https://github.com/Danil0ws/agentic-teams-web#readme",
+  "bugs": {
+    "url": "https://github.com/Danil0ws/agentic-teams-web/issues"
+  },
+  "author": "Danil0ws",
   "scripts": {
     "start": "node --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/serve.ts",
     "dev": "node --watch --env-file-if-exists=.env --disable-warning=ExperimentalWarning src/cli/serve.ts",

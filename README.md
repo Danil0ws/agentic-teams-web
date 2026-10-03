@@ -1,5 +1,10 @@
 # agentic-teams-web
 
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A522.6-brightgreen)](https://nodejs.org)
+[![Testes](https://img.shields.io/badge/testes-47%20passando-success)](#testes)
+[![Dependências obrigatórias](https://img.shields.io/badge/depend%C3%AAncias%20obrigat%C3%B3rias-0-success)](#arquitetura-em-10-linhas)
+
 Agente autônomo para **Microsoft Teams** com um único núcleo de inteligência servindo **dois transports**:
 
 | Transport | O que é | Quando usar |
@@ -8,6 +13,16 @@ Agente autônomo para **Microsoft Teams** com um único núcleo de inteligência
 | `teams-web` | Dirige o **Teams Web real** em um navegador (Playwright), como o `whatsapp-web.js` faz com o WhatsApp Web. | Uso pessoal, demo e laboratório — **não** para produção (ver *Aviso legal*). |
 
 O agente responde sobre catálogo/licenciamento, orçamento com desconto por volume, SLA, faturamento, segurança/LGPD e escala para humano quando o caso pede. Roda **sem chave de API e sem rede** (modo `offline` determinístico) — o mesmo código serve para teste e para produção.
+
+## Em 60 segundos
+
+```bash
+git clone https://github.com/Danil0ws/agentic-teams-web && cd agentic-teams-web
+npm test                                              # 47 testes, sem chave e sem rede
+npm run chat -- "Quero 25 licenças do Business Premium"
+```
+
+Funciona sem configurar nada: o modo padrão (`LLM_PROVIDER=offline`) responde com regras determinísticas e preços do catálogo. Para LLM, Teams Web ou Teams oficial, veja [Rodando](#rodando).
 
 ## Sumário
 
@@ -164,6 +179,7 @@ src/
 data/           catalog.csv · faq.md        ← troque pelos seus dados; nada mais precisa mudar
 tests/          47 testes + fixtures/teams-web.html
 docs/           ARQUITETURA.md · REFERENCIAS.md · TEAMS_OFICIAL.md
+LICENSE · CONTRIBUTING.md · SECURITY.md · CODE_OF_CONDUCT.md
 ```
 
 Trocar o domínio do negócio = editar `data/catalog.csv` e `data/faq.md`. Nós, guardrails e transports ficam iguais.
@@ -177,3 +193,14 @@ Trocar o domínio do negócio = editar `data/catalog.csv` e `data/faq.md`. Nós,
 ## Publicação
 
 Os workflows do GitHub Actions desta conta não iniciam execução (`startup_failure` até em workflow mínimo), então a verificação roda localmente (`npm test`) e o push é feito direto pelo `gh`. Se o Actions voltar a funcionar, o passo de CI é simplesmente `npm test`.
+
+## Licença e contribuição
+
+[MIT](LICENSE) — use, modifique e redistribua, inclusive comercialmente, mantendo o aviso de copyright.
+
+- **Como contribuir**: [`CONTRIBUTING.md`](CONTRIBUTING.md) — onde cada tipo de mudança encaixa (domínio, nó, canal, ferramenta) e as regras de ouro.
+- **Segurança**: [`SECURITY.md`](SECURITY.md) — relato privado de vulnerabilidade, escopo e checklist de implantação.
+- **Convivência**: [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — Contributor Covenant v2.1.
+- **Decisões e histórico**: [`docs/ARQUITETURA.md`](docs/ARQUITETURA.md), [`CHANGELOG.md`](CHANGELOG.md), [`REGISTRO.md`](REGISTRO.md).
+
+É um aplicativo, não uma biblioteca publicada: o `package.json` mantém `"private": true` para impedir publicação acidental no npm. Reaproveite clonando o repositório.
